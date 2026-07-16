@@ -18,15 +18,16 @@ A continuación, se detalla la ejecución exitosa del flujo de automatización:
 
 ### 1. Extracción de Datos (SQL Server)
 El nodo de base de datos se conecta exitosamente mediante el puerto 1433, ejecutando el script para extraer únicamente los tickets cuyo SLA ha sido superado.
-![Conexión SQL y Extracción](08d465c8-b60f-439e-ac49-81ca4a347a9f.png)
+![Ejecución Nodo Telegram](abb5f9fc-2ac1-4b56-bbae-5631edb3d6be.png)
 
 ### 2. Procesamiento y Envío de Alerta (Telegram Node)
 El sistema itera automáticamente sobre los resultados y estructura el mensaje cruzando las variables del JSON para enviarlas mediante la API de Telegram.
-![Ejecución Nodo Telegram](abb5f9fc-2ac1-4b56-bbae-5631edb3d6be.png)
+![Conexión SQL y Extracción](08d465c8-b60f-439e-ac49-81ca4a347a9f.png)
 
 ### 3. Recepción en Tiempo Real (Chat de Soporte)
 Las alertas críticas llegan de forma inmediata al dispositivo del ingeniero de guardia, permitiendo una respuesta rápida ante la caída de servicios.
 ![Alertas en Telegram](fbefe9e7-4803-42f5-8836-7c00ba332dad.jpg)
+
 
 ---
 
