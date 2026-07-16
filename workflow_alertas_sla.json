@@ -1,0 +1,105 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5426597e-8483-4755-aec1-4e7059a986b4",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id_ticket, cliente, descripcion_falla, fecha_creacion\nFROM operaciones_ti.dbo.tickets_soporte\nWHERE estado = 'Abierto'\nAND DATEDIFF(hour, fecha_creacion, GETDATE()) >= sla_horas;"
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "335cf294-8601-478a-b2ea-4945bf1f25ec",
+      "name": "Microsoft SQL",
+      "credentials": {
+        "microsoftSql": {
+          "id": "NzW7AdWP0IW5ugYZ",
+          "name": "Microsoft SQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "2016468305",
+        "text": "=🚨 *ALERTA CRÍTICA DE SLA* 🚨 *Ticket ID:* {{ $json.id_ticket }} *Cliente:* {{ $json.cliente }} *Falla:* {{ $json.descripcion_falla }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "1ceeb70e-9767-4256-a3b8-60c6a9a04dab",
+      "name": "Send a text message",
+      "webhookId": "c721efc4-f0bf-46d1-8926-35dc880f8ca5",
+      "credentials": {
+        "telegramApi": {
+          "id": "LXUMDsaGFXQuVCWm",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Microsoft SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft SQL": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0ac57e45-4a57-4d20-ab29-3f87b4dec37d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8e31869f1da283e89b98b6af5571477733560f6a69f1d27fc380624f382bc10"
+  },
+  "id": "gstZUZc9tCQ49GvA",
+  "tags": []
+}
